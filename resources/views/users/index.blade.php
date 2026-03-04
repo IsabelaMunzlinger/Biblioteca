@@ -12,6 +12,8 @@
         Users
     </h1>
 
+    <a href="/users/create">Criar usuário</a>
+
     <table class="table">
         <thead>
             <tr>
