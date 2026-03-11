@@ -37,7 +37,7 @@
                         Alterar
                     </a>
                     <a
-                        href=""
+                        href="/users/{{$user->id}}/delete"
                         class="btn btn-danger"
                     >
                         Excluir

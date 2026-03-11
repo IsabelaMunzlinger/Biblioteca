@@ -82,4 +82,24 @@ class UserController extends Controller
  
         return redirect('/users');
     }
+
+    /**
+     * Cofirm delete.
+     */
+    public function confirmDelete(Request $request, User $user): View
+    { 
+        return view('users.delete', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Delete.
+     */
+    public function delete(Request $request, User $user): RedirectResponse
+    { 
+        $user->delete();
+ 
+        return redirect('/users');
+    }
 }
