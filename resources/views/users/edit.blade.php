@@ -40,8 +40,43 @@
             >
         </div>
 
-        <a href="/users" class="btn btn-secondary">Voltar</a>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <h3>Phones</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($user->phones as $phone)
+                <tr>
+                    <td>{{$phone->number}}</td>
+                    <td>
+                        <a
+                            href="/users/{{$user->id}}/phone/{{$phone->id}}"
+                            class="btn btn-danger"
+                        >
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <div>
+            <a
+                href="/users/{{$user->id}}/phone"
+                class="btn btn-primary my-3"
+            >
+                Adicionar telefone
+            </a>
+        </div>
+
+        <a href="/users" class="btn btn-secondary btn-lg">Voltar</a>
+        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
     </form>
 
     @if ($errors->any())

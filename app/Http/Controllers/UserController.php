@@ -57,6 +57,8 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user): View
     { 
+        $user->load('phones');
+
         return view('users.edit', [
             'user' => $user
         ]);
@@ -101,5 +103,15 @@ class UserController extends Controller
         $user->delete();
  
         return redirect('/users');
+    }
+
+    /**
+     * Create phone.
+     */
+    public function createPhone(Request $request, User $user): View
+    {
+        return view('users.phones.create', [
+            'user' => $user
+        ]);
     }
 }
