@@ -101,6 +101,11 @@ class UserController extends Controller
      */
     public function delete(Request $request, User $user): RedirectResponse
     { 
+        if ($user->phones()->exists()) {
+            return back()
+                ->withErrors(['Não é possível excluir um user com phone vinculado']);
+        }
+
         $user->delete();
  
         return redirect('/users');
