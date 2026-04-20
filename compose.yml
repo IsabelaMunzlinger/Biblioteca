@@ -28,7 +28,7 @@ services:
     image: mysql:8.0
     container_name: laravel12-db
     environment:
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: lizard_books
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel
       MYSQL_ROOT_PASSWORD: root

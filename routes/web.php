@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\UnoescController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LivrosController;
+use App\Http\Controllers\LeitorController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +22,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Rota para a página inicial
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/livros/{livro}', [LivrosController::class, 'show'])->name('livros.show');
+
+//Rotas para os livros
+Route::get('/livros', [LivrosController::class, 'index']);
+Route::get('/livros/create', [LivrosController::class, 'create'])->name('livros.create');
+Route::post('/livros/store', [LivrosController::class, 'store'])->name('livros.store');
+
+
+//Rotas para os leitores
+Route::get('/leitores/create', [LeitorController::class, 'create'])->name('leitores.create');
+Route::post('/leitores/store', [LeitorController::class, 'store'])->name('leitores.store');
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/create', [UserController::class, 'create']);
