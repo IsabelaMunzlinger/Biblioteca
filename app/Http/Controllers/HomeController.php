@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Livro;
- use App\Models\Leitor; // Quando você criar o model do Leitor
-//use App\Models\Emprestimo; // Quando criar o model de Empréstimo
+use App\Models\Leitor; 
+use App\Models\Emprestimo;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 
@@ -12,33 +12,33 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // Criamos a consulta base
-        $query = Livro::query();
+        // 1. Apenas livros ativos
+        $query = Livro::where('ativo', true);
 
-        $autores = Livro::select('autor')->distinct()->orderBy('autor')->pluck('autor');
-
-        $generos = Livro::select('genero')->distinct()->orderBy('genero')->pluck('genero');
-
-        // Aplicamos os filtros caso o utilizador os tenha preenchido
+        // 2. Filtros que o usuário preencheu
         if ($request->filled('genero')) {
             $query->where('genero', $request->genero);
         }
 
         if ($request->filled('autor')) {
-            $query->where('autor', 'like', '%' . $request->autor . '%');
+            $query->where('autor', $request->autor);
         }
 
         if ($request->filled('ano')) {
             $query->where('ano_publicacao', $request->ano);
         }
 
-        // Obtemos os livros (filtrados ou não)
-        $livros = $query->get();
+        // 3. Livros filtrados da variável $query
+        $livros = $query->orderBy('titulo')->get();
 
-        // Dados para os cards de resumo (Dashboard)
-        $totalLivros = Livro::count();
-        $totalLeitores = 0; // Atualiza quando criares a Model Leitor
-        $emprestimosAtivos = 0; // Atualiza quando tiveres Emprestimos
+        // Dados para o dashboard com as estatisticas
+        // Listas para os selects de filtro, somente livros ativos
+        $autores = Livro::where('ativo', true)->distinct()->orderBy('autor')->pluck('autor');
+        $generos = Livro::where('ativo', true)->distinct()->orderBy('genero')->pluck('genero');
+
+        $totalLivros = Livro::where('ativo', true)->count();
+        $totalLeitores = Leitor::count();
+        $emprestimosAtivos = Emprestimo::whereNull('data_devolucao_real')->count();
 
         return view('home', compact('livros', 'totalLivros', 'totalLeitores', 'emprestimosAtivos', 'autores', 'generos'));
     }
