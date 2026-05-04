@@ -1,126 +1,65 @@
-# Desenvolvimento Web e Aplicativos
+# 📚 Lizard Books - Gestão de Biblioteca
 
-Projeto utilizado na disciplina **Desenvolvimento Web e Aplicativos** com objetivo de apresentar, de forma prática, os conceitos básicos de
-desenvolvimento web utilizando **Laravel** e **Docker**.
+Sistema focado no gerenciamento completo de uma biblioteca, integrando controle de acervo, usuários e regras de negócio para empréstimos.
 
+## 📋 Entidades do Sistema
+O projeto foi estruturado com base em 4 entidades principais:
+*   **Livros:** Controle de títulos, autores, estoque e capas.
+*   **Leitores:** Cadastro de usuários com validação de identidade.
+*   **Empréstimos:** Gestão de transações e prazos entre leitores e livros.
+*   **Endereços:** Dados de localização vinculados aos leitores.
 
-## 📌 Requisitos
+## ⚖️ Regras de Negócio
 
-Antes de começar, você precisa ter instalado na sua máquina:
+*   **Limite de Empréstimos:** Um leitor pode possuir, no máximo, **3 exemplares ativos** simultaneamente.
+*   **Integridade Referencial (Leitores):** Bloqueio de exclusão para leitores com empréstimos pendentes.
+*   **Integridade Referencial (Livros):** Bloqueio de exclusão para livros com histórico de movimentação (utiliza-se a função de **Inativar** para remover de circulação).
+*   **Validação de Identidade:** Cadastro impedido em caso de **CPF duplicado**.
+*   **Campos Obrigatórios:** Validação no backend para impedir registros incompletos.
+*   **Filtro de Exibição:** Apenas livros **Ativos** e com **Estoque** disponível aparecem para novos empréstimos e no carrossel da Home.
 
-### 1️⃣ Git
-Utilizado para clonar o projeto.
+## 🛠️ Requisitos
+*   **Git**
+*   **Docker Desktop** (em execução)
+*   **Editor de Código** (Recomendado: VS Code)
 
-🔗 https://git-scm.com/downloads
+## 🚀 Como Executar o Projeto
 
-Verifique a instalação:
-```bash
-git --version
-```
+1. **Clonar o repositório:**
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd <PASTA_DO_PROJETO>
 
----
-
-### 2️⃣ Docker
-Utilizado para rodar o ambiente completo (PHP, Nginx e MySQL) sem instalar
-essas ferramentas manualmente.
-
-🔗 https://www.docker.com/products/docker-desktop/
-
-Verifique a instalação:
-```bash
-docker --version
-docker compose version
-```
-
-⚠️ **Importante**
-- O Docker Desktop deve estar **aberto e em execução** antes de continuar.
-- No Windows, recomenda-se usar **WSL 2** (o próprio instalador orienta).
-
----
-
-### 3️⃣ Editor de Código (recomendado)
-Sugestão: **Visual Studio Code**
-
-🔗 https://code.visualstudio.com/
-
----
-
-## 🚀 Subindo o projeto pela primeira vez
-
-### 1️⃣ Clonar o repositório
-
-```bash
-git clone <URL_DO_REPOSITORIO>
-cd <PASTA_DO_PROJETO>
-```
-
----
-
-### 2️⃣ Criar o arquivo de ambiente
-
-```bash
-cp .env.example .env
-```
-
----
-
-### 3️⃣ Subir os containers com Docker
-
-```bash
-docker compose up -d --build
-```
-
-Esse comando pode demorar alguns minutos na primeira execução.
-
----
-
-### 4️⃣ Instalar as dependências do Laravel
-
-```bash
-docker compose exec app composer install
-```
-
----
-
-### 5️⃣ Gerar a chave da aplicação
-
-```bash
-docker compose exec app php artisan key:generate
-```
-
----
-
-### 6️⃣ Acessar a aplicação
-
-Abra o navegador e acesse:
-
-```
-http://localhost:8080
-```
-
-Se você visualizar a página inicial do Laravel, o ambiente está funcionando ✅
-
----
-
-## 🛑 Problemas comuns
-
-- **Docker não inicia**
-  Verifique se o Docker Desktop está aberto.
-
-- **Porta 8080 já está em uso**
-  Feche outros serviços que possam estar usando essa porta
-  ou avise o professor.
-
-- **Erro de permissão em arquivos**
-  Reinicie os containers:
+2. Configurar o arquivo .env
+Abra o arquivo .env na raiz do seu projeto e ajuste as credenciais do banco de dados. Isso é essencial para que o Laravel consiga se comunicar com o container do MySQL:
+   ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=db
+    DB_PORT=3306
+    DB_DATABASE=lizard_books
+    DB_USERNAME=root
+    DB_PASSWORD=password
+  
+3. Subir os Containers
+Utilize o Docker Compose para construir e iniciar o ambiente:
   ```bash
-  docker compose down
-  docker compose up -d
-  ```
+    docker compose up -d --build
+ ```
 
----
 
-## 📚 Observação importante
+4. Finalizar Configuração do Laravel
+Com os containers rodando, execute os comandos internos para instalar dependências e preparar o banco de dados:
+  ```bash
+# 1. Instalar as dependências do PHP (Composer)
+docker compose exec app composer install
 
-Este projeto será evoluído ao longo do semestre conforme os conteúdos da disciplina.
-Não altere a estrutura do Docker sem orientação do professor.
+# 2. Gerar a chave única da aplicação
+docker compose exec app php artisan key:generate
+
+# 3. Rodar as migrações para criar as tabelas no banco
+docker compose exec app php artisan migrate
+
+# 4. Criar o link simbólico para as capas dos livros funcionarem
+docker compose exec app php artisan storage:link
+
+
