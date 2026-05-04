@@ -50,46 +50,18 @@
                     </span>
                 </div>
                 
-                <button type="button" class="btn btn-primary btn-lg px-5 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAlugar" {{ $livro->exemplares_disponiveis <= 0 ? 'disabled' : '' }}>
-                    <i class="bi bi-bookmark-plus"></i> Alugar
-                </button>
+                @if($livro->exemplares_disponiveis > 0)
+                    <a href="{{ route('emprestimos.create', ['livro_id' => $livro->id]) }}" class="btn btn-primary btn-lg px-5 shadow-sm">
+                        <i class="bi bi-bookmark-plus"></i> Alugar
+                    </a>
+                @else
+                    <!-- Botão desativado visualmente se não tiver estoque -->
+                    <button type="button" class="btn btn-secondary btn-lg px-5 shadow-sm" disabled>
+                        <i class="bi bi-x-circle"></i> Indisponível
+                    </button>
+                @endif
             </div>
 
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalAlugar" tabindex="-1" aria-labelledby="modalAlugarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="modalAlugarLabel">Novo Empréstimo</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
-            <form action="#" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <p>Você está alugando o livro: <strong>{{ $livro->titulo }}</strong></p>
-                    
-                    <input type="hidden" name="livro_id" value="{{ $livro->id }}">
-
-                    <div class="mb-3">
-                        <label for="leitor_id" class="form-label fw-bold">Selecione o Leitor:</label>
-                        <select class="form-select" name="leitor_id" id="leitor_id" required>
-                            <option value="" selected disabled>Escolha na lista...</option>
-                            @foreach($leitores as $leitor)
-                                <option value="{{ $leitor->id }}">{{ $leitor->nome }} (CPF: {{ $leitor->cpf }})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Confirmar Empréstimo</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

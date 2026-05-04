@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Leitor extends Model
 {
@@ -25,12 +26,16 @@ class Leitor extends Model
         'data_nascimento',
     ];
    
-    /**
-     * Define o relacionamento: Um leitor POSSUI UM endereço.
-     */
+    //Define o relacionamento: Um leitor possio um endereço.
     public function endereco()
     {
         return $this->hasOne(Endereco::class);
+    }
+
+    // Relacionamento: Um leitor pode ter muitos empréstimos.
+    public function emprestimos(): HasMany
+    {
+        return $this->hasMany(Emprestimo::class);
     }
 
 }

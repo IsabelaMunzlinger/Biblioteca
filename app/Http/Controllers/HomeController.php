@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    // Para mostrar a página inicial com os livros disponíveis e as estatísticas do sistema
     public function index(Request $request)
     {
         // 1. Apenas livros ativos

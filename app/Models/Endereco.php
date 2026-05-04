@@ -11,9 +11,7 @@ class Endereco extends Model
         'complemento', 'bairro', 'cidade', 'estado'
     ];
 
-    /**
-     * Define que este endereço PERTENCE A um leitor.
-     */
+    // Define que este endereço pertence a um leitor.
     public function leitor()
     {
         return $this->belongsTo(Leitor::class);

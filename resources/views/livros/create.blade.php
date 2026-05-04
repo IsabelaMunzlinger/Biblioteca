@@ -4,10 +4,9 @@
         <h2>
             <i class="bi bi-book"></i> Cadastro de livros
         </h2>
-        
+
         <div>
-            <button type="button" class="btn btn-outline-secondary me-2">Editar</button>
-            <button type="button" class="btn btn-outline-danger">Excluir</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='{{ route('livros.index') }}'">Voltar</button>
         </div>
     </div>
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LivrosController;
 use App\Http\Controllers\LeitorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EmprestimoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,29 +26,31 @@ Route::get('/', function () {
 
 //Rota para a página inicial
 Route::get('/home', [HomeController::class, 'index'])->name('home.index');
-Route::get('/livros/{livro}', [LivrosController::class, 'show'])->name('livros.show');
 
 //Rotas para os livros
-Route::get('/livros', [LivrosController::class, 'index']);
+Route::get('/livros', [LivrosController::class, 'index'])->name('livros.index');
 Route::get('/livros/create', [LivrosController::class, 'create'])->name('livros.create');
 Route::post('/livros/store', [LivrosController::class, 'store'])->name('livros.store');
+Route::get('/livros/{livro}', [LivrosController::class, 'show'])->name('livros.show');
+Route::get('/livros/{livro}/edit', [LivrosController::class, 'edit'])->name('livros.edit');
+Route::put('/livros/{livro}', [LivrosController::class, 'update'])->name('livros.update');
+Route::delete('/livros/{livro}', [LivrosController::class, 'destroy'])->name('livros.destroy');
+Route::patch('/livros/{livro}/toggle-status', [LivrosController::class, 'toggleStatus'])->name('livros.toggleStatus');
 
 
 //Rotas para os leitores
+Route::get('/leitores', [LeitorController::class, 'index'])->name('leitores.index');
 Route::get('/leitores/create', [LeitorController::class, 'create'])->name('leitores.create');
 Route::post('/leitores/store', [LeitorController::class, 'store'])->name('leitores.store');
+Route::get('/leitores/{leitor}', [LeitorController::class, 'show'])->name('leitores.show');
+Route::get('/leitores/{leitor}/edit', [LeitorController::class, 'edit'])->name('leitores.edit');
+Route::put('/leitores/{leitor}', [LeitorController::class, 'update'])->name('leitores.update');
+Route::delete('/leitores/{leitor}', [LeitorController::class, 'destroy'])->name('leitores.destroy');
 
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/create', [UserController::class, 'create']);
-Route::post('/users/store', [UserController::class, 'store']);
-Route::get('/users/{user}', [UserController::class, 'edit']);
-Route::put('/users/{user}', [UserController::class, 'update']);
-Route::get('/users/{user}/delete', [UserController::class, 'confirmDelete']);
-Route::delete('/users/{user}', [UserController::class, 'delete']);
 
-Route::get('/users/{user}/phone', [UserController::class, 'createPhone']);
-Route::post('/users/{user}/phone', [UserController::class, 'storePhone']);
-Route::delete('/users/{user}/phone/{phone}', [UserController::class, 'deletePhone']);
 
-Route::get('/unoesc', [UnoescController::class, 'index']);
-Route::post('/unoesc', [UnoescController::class, 'login']);
+// Rotas de Empréstimos
+Route::get('/emprestimos', [EmprestimoController::class, 'index'])->name('emprestimos.index');
+Route::get('/emprestimos/create', [EmprestimoController::class, 'create'])->name('emprestimos.create');
+Route::post('/emprestimos', [EmprestimoController::class, 'store'])->name('emprestimos.store');
+Route::put('/emprestimos/{emprestimo}/devolver', [EmprestimoController::class, 'devolver'])->name('emprestimos.devolver');
