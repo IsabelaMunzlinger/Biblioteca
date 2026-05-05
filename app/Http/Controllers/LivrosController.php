@@ -33,7 +33,7 @@ class LivrosController extends Controller{
 
 
     //Atualiza os dados de um livro específico no banco de dados.
-    public function update(Request $request, Livro $livro: RedirectResponse
+    public function update(Request $request, Livro $livro): RedirectResponse
     {
         // 1. Validação
         $request->validate([

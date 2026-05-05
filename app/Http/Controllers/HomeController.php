@@ -34,7 +34,7 @@ class HomeController extends Controller
 
         // Dados para o dashboard com as estatisticas
         // Listas para os selects de filtro, somente livros ativos
-        $autores = Livro::where('ativo', true)->distinct()->orderBy('autor')->pluck('autor');
+        $autores = Livro::where('ativo', true)->distinct()->orderBy('autor')->pluck('autor'); //pluck é para pegar somente a coluna autor, sem trazer o resto dos dados do livro
         $generos = Livro::where('ativo', true)->distinct()->orderBy('genero')->pluck('genero');
 
         $totalLivros = Livro::where('ativo', true)->count();
