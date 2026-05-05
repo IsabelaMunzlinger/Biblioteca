@@ -30,7 +30,12 @@ O projeto foi estruturado com base em 4 entidades principais:
    git clone <URL_DO_REPOSITORIO>
    cd <PASTA_DO_PROJETO>
 
-2. Configurar o arquivo .env
+2. Criar o arquivo de ambiente
+  ```bash
+  cp .env.example .env
+  ```
+
+3. Configurar o arquivo .env
 Abra o arquivo .env na raiz do seu projeto e ajuste as credenciais do banco de dados. Isso é essencial para que o Laravel consiga se comunicar com o container do MySQL:
    ```bash
     DB_CONNECTION=mysql
@@ -40,14 +45,13 @@ Abra o arquivo .env na raiz do seu projeto e ajuste as credenciais do banco de d
     DB_USERNAME=root
     DB_PASSWORD=password
   
-3. Subir os Containers
+4. Subir os Containers
 Utilize o Docker Compose para construir e iniciar o ambiente:
   ```bash
     docker compose up -d --build
  ```
 
-
-4. Finalizar Configuração do Laravel
+5. Finalizar Configuração do Laravel
 Com os containers rodando, execute os comandos internos para instalar dependências e preparar o banco de dados:
   ```bash
 # 1. Instalar as dependências do PHP (Composer)
